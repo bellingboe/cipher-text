@@ -270,7 +270,7 @@
 
 <script src="https://destruct.co:3000/socket.io/socket.io.js"></script>
 <script>
-			var socket = io('https://destruct.co:3000');
+			var socket = io('https://getciphertext.com:3000');
 			
 			var is_online = 0;
 
@@ -305,41 +305,41 @@
 
 				var logOut = function() {
 					window.localStorage.removeItem("ct_masterpass");
-                    window.localStorage.removeItem("ct_id_obj");
-                    window.localStorage.removeItem("ct_msgs");
+					window.localStorage.removeItem("ct_id_obj");
+					window.localStorage.removeItem("ct_msgs");
 					location.reload();
 				};
 
 				var openPage = function(id, new_up_down, old_up_down, cb) {
-                    window.scrollTo(0,0);
+				window.scrollTo(0,0);
               
-					var old = $(".page-open");
-					var page = $(id);
+				var old = $(".page-open");
+				var page = $(id);
 
-					if (old) {
-						switch (old_up_down) {
-							case "up":
-								old.animate({top: -parseInt($(window).height() + 1, 10)}, {complete: function(){
-									$(this).addClass("hiding").removeClass("page-open");
-								}});
-							break;
-							case "down":
-								old.animate({top: parseInt($(window).height() + 1, 10)}, {complete: function(){
-									$(this).addClass("hiding").removeClass("page-open");
-								}});
-							break;
-                            case "left":
-                                old.animate({top:0, left: -parseInt($(window).width(), 10)}, {complete: function(){
-                                    $(this).addClass("hiding").removeClass("page-open");
-                                }});
-                            break;
-                            case "right":
-                                old.animate({top:0, left: parseInt($(window).width() * 2, 10)}, {complete: function(){
-                                    $(this).addClass("hiding").removeClass("page-open");
-                                }});
-                            break;
-						}
+				if (old) {
+					switch (old_up_down) {
+						case "up":
+							old.animate({top: -parseInt($(window).height() + 1, 10)}, {complete: function(){
+								$(this).addClass("hiding").removeClass("page-open");
+							}});
+						break;
+						case "down":
+							old.animate({top: parseInt($(window).height() + 1, 10)}, {complete: function(){
+								$(this).addClass("hiding").removeClass("page-open");
+							}});
+						break;
+						case "left":
+						old.animate({top:0, left: -parseInt($(window).width(), 10)}, {complete: function(){
+						    $(this).addClass("hiding").removeClass("page-open");
+						}});
+						break;
+						case "right":
+						old.animate({top:0, left: parseInt($(window).width() * 2, 10)}, {complete: function(){
+						    $(this).addClass("hiding").removeClass("page-open");
+						}});
+						break;
 					}
+				}
 
 					switch (new_up_down) {
 						case "up":
@@ -389,77 +389,78 @@
 					}
 				};
 
-				var setup_app_password = window.localStorage.getItem("ct_masterpass");
+			var setup_app_password = window.localStorage.getItem("ct_masterpass");
 
-				var get_master_pin = function() {
-					return window.localStorage.getItem("ct_masterpass");
-				};
+			var get_master_pin = function() {
+				return window.localStorage.getItem("ct_masterpass");
+			};
 
-				var active_id_object = function() {
-					var enc_ident = window.localStorage.getItem("ct_id_obj");
-					if (!enc_ident) {
-						return false;
-					}
-					var identity = unciph(get_master_pin(), enc_ident);
-					var id_parsed = JSON.parse(identity);
+			var active_id_object = function() {
+				var enc_ident = window.localStorage.getItem("ct_id_obj");
+				if (!enc_ident) {
+					return false;
+				}
+				var identity = unciph(get_master_pin(), enc_ident);
+				var id_parsed = JSON.parse(identity);
+      
+				var privateKey = openpgp.key.readArmored(id_parsed.key.priv).keys[0];
+				privateKey.decrypt(get_master_pin());
+				id_parsed.unlocked_private_key = privateKey;
+
+				return id_parsed;
+			};
               
-                    var privateKey = openpgp.key.readArmored(id_parsed.key.priv).keys[0];
-                    privateKey.decrypt(get_master_pin());
-                    id_parsed.unlocked_private_key = privateKey;
+			window.active_id_object = active_id_object;
 
-					return id_parsed;
+			var getLocalMessages = function() {
+				return window.localStorage.getItem("ct_msgs");
+			};
+
+			var placeIdentityIntoStorage = function(id) {
+				window.localStorage.setItem("ct_id_obj", id);
+			};
+
+			var generateNewIdentity = function() {
+				$(".app-id-action").attr("disabled", "disabled").val("Creating New Identity...");
+				$(".id-name").removeClass("hiding").css({color: "grey"}).html("Creating identity, please wait... ");
+
+				var new_id_str = random_string(5)+"-"+random_string(5);
+
+				var identity = {
+					username: new_id_str,
+					pgp_email: new_id_str+" <anon-"+new_id_str+"@getciphertext.com>"
 				};
-              
-                window.active_id_object = active_id_object;
+			};
 
-				var getLocalMessages = function() {
-					return window.localStorage.getItem("ct_msgs");
-				};
-
-				var placeIdentityIntoStorage = function(id) {
-					window.localStorage.setItem("ct_id_obj", id);
-				};
-
-				var generateNewIdentity = function() {
-					$(".app-id-action").attr("disabled", "disabled").val("Creating New Identity...");
-					$(".id-name").removeClass("hiding").css({color: "grey"}).html("Creating identity, please wait... ");
-
-					var new_id_str = random_string(5)+"-"+random_string(5);
-
-					var identity = {
-						username: new_id_str,
-						pgp_email: new_id_str+" <anon-"+new_id_str+"@getciphertext.com>"
-					};
-
-					window.openpgp.initWorker('openpgp.worker.js');
-                    window.openpgp.generateKeyPair(1, 2048, identity.pgp_email, get_master_pin(), function(err, res){
-                        if (err) {
-                            $(".id-name").removeClass("hiding").css({color: "red"}).html("Error creating keypair: "+err);
-                            return false;
-                        }
-                        
-                        var new_key_pair = res;
-
-                    	identity.key = {};
-                    	identity.key.pub = new_key_pair.publicKeyArmored;
-                    	identity.key.priv = new_key_pair.privateKeyArmored;
-                        identity.key.raw = new_key_pair.key;
-						
-						socket.emit('id-with-key', new_id_str, identity.key.pub);
-
-                        try {
-                            ident_enc = ciph(get_master_pin(), JSON.stringify(identity));
-                            placeIdentityIntoStorage(ident_enc);
-                        } catch(_e) {
-                            console.log(_e);
-                        }
-
-                        refreshIdStatus();
-                        
-						is_online = 1;
-                        return true;
+			window.openpgp.initWorker('openpgp.worker.js');
+			window.openpgp.generateKeyPair(1, 2048, identity.pgp_email, get_master_pin(), function(err, res){
+			if (err) {
+			$(".id-name").removeClass("hiding").css({color: "red"}).html("Error creating keypair: "+err);
+			return false;
+			}
+			
+			var new_key_pair = res;
+			
+			identity.key = {};
+			identity.key.pub = new_key_pair.publicKeyArmored;
+			identity.key.priv = new_key_pair.privateKeyArmored;
+			identity.key.raw = new_key_pair.key;
+			
+			socket.emit('id-with-key', new_id_str, identity.key.pub);
+			
+			try {
+			ident_enc = ciph(get_master_pin(), JSON.stringify(identity));
+			placeIdentityIntoStorage(ident_enc);
+			} catch(_e) {
+			console.log(_e);
+			}
+			
+			refreshIdStatus();
+			
+			is_online = 1;
+			return true;
                     });
-				};
+		//};
               
                 var loadMessageList = function() {
                     var messages = getLocalMessages();
@@ -520,19 +521,19 @@
 						.animate({top: 0});
 				}
 
-                $(".app-clear-pin-1").on("click", function(){
-                    openPage("#app_confirm_erase", "left", "left");
-                });
-				
-                $(".app-add-contact").on("click", function(){
-                    openPage("#app_add_contact", "right", "right", function(){
-						$(".add-contact-txt").focus();
-					});
-                });
-				
-                $(".app-close-add-contact").on("click", function(){
-                    openPage("#app_page", "left", "left");
-                });
+				$(".app-clear-pin-1").on("click", function(){
+				    openPage("#app_confirm_erase", "left", "left");
+				});
+						
+				$(".app-add-contact").on("click", function(){
+				    openPage("#app_add_contact", "right", "right", function(){
+								$(".add-contact-txt").focus();
+							});
+				});
+						
+				$(".app-close-add-contact").on("click", function(){
+				    openPage("#app_page", "left", "left");
+				});
 				
 				$(".app-clear-pin").on("click", function(){
 					logOut();
@@ -547,7 +548,7 @@
 				});
 
 				$(".app-messages").on("click", function(){
-                    loadMessageList();
+					loadMessageList();
 					openPage("#app_messages", "left", "left");
 				});
 
@@ -559,19 +560,19 @@
 					openPage("#app_page", "right", "right");
 				});
               
-                $(".app-close-id-data").on("click", function(){
-                    openPage("#app_page", "right", "right");
-                });
-              
-                $(".app-identity-data").on("click", function(){
-                    refreshIdStatus();
-                    openPage("#app_id_data", "left", "left");
-                });
-              
-                $(".app-close-erase").on("click", function(){
-                    refreshIdStatus();
-                   openPage("#app_id_data", "right", "right");
-                });
+				$(".app-close-id-data").on("click", function(){
+				    openPage("#app_page", "right", "right");
+				});
+			      
+				$(".app-identity-data").on("click", function(){
+				    refreshIdStatus();
+				    openPage("#app_id_data", "left", "left");
+				});
+			      
+				$(".app-close-erase").on("click", function(){
+				    refreshIdStatus();
+				   openPage("#app_id_data", "right", "right");
+				});
 
 				$("#login_masterpass_form input[type=button]")
 					.on("click", function(){
@@ -677,25 +678,6 @@
 						}
 					}
 				});
-
-/*
-				$("#login_masterpass_form input[type=button]")
-					.on("mousedown", function(){
-					var which_pin = pin_index;
-					if ($(this).hasClass("pin-back")) {
-						$("#login_masterpass_form input[data-idx="+which_pin+"]").val('');
-						if (which_pin > 0) {
-							pin_index = which_pin - 1;
-						}
-					} else {
-						var btn_val = $(this).val();
-						$("#login_masterpass_form input[data-idx="+which_pin+"]").val(btn_val);
-						if (which_pin < 3) {
-							pin_index = which_pin + 1;
-						}
-					}
-				});
-*/
 
 				$("#new_masterpass_form")
 					.on("submit", function(){
