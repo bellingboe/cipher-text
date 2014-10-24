@@ -535,7 +535,7 @@
 							key: window.localStorage.getItem(p.to[1] + "_key")
 						};
 						
-						conssole.log(chat);
+						console.log(chat);
 					}
 
 				        var
