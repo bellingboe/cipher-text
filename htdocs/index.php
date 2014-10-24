@@ -18,10 +18,11 @@
                 width: 100%;
                 height: 100px;
                 text-align: center;
-                text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.56);
-                color: #6388B1;
+                text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.56);
+                color: rgb(0, 0, 0);
                 line-height: 100px;
-                font-weight: 200;
+                font-weight: 300;
+                font-size: 35pt;
             }
             
             .launch-message {
