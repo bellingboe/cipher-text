@@ -1,6 +1,7 @@
 <!html>
 <html> 
     <head>
+        <link href='https://fonts.googleapis.com/css?family=Advent+Pro:400,500,600,700,300,200,100' rel='stylesheet' type='text/css'>
         <style>
             body {
                 font-family: "Advent Pro", sans-serif;
@@ -11,11 +12,12 @@
             
             h1.site-header {
                 display: block;
-                width: 100%
-                height: 50px;
+                width: 100%;
+                height: 70px;
                 background: #6388B1;
                 text-align: center;
                 text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.56);
+                color: #fff;
             }
             
             .launch-message {
