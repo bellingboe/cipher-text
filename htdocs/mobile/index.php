@@ -1082,11 +1082,11 @@
 						
 						var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
 
-						console.log(messages[user]);
+						console.log(messages[user].m[0]);
 						
 						if (messages[user]["m"]) {
 							for(var i=0;i<messages[user]["m"].lemgth;i++) {
-								var m = messages[user]["m"][i];
+								var m = messages[user].m[i];
 								
 								if (m.from == me.username) {
 								    var from = "<strong>" + m.from + " (You)</strong>:<br>";
