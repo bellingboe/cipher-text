@@ -643,7 +643,7 @@
 				
 									msg_text = m.msg;
 									
-									msg_text = "<div class='msg-item'>" + m.from + htmlEncode(msg_text).replace("\n", "</div><div>") + "</div>";
+									msg_text = "<div class='msg-item'>" + from + htmlEncode(msg_text).replace("\n", "</div><div>") + "</div>";
 									var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text).appendTo($(".app-messages-conversation-display"));
 									$(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
 								}
