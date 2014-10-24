@@ -566,8 +566,7 @@
 				        var msg_item = $("<div>").attr("data-ts", p.ts).html(dec_msg_text);
 				        var display = $(".app-messages-conversation-display").append(msg_item);
 
-					console.log("addMessage call...");
-				        addMessage(p.f, msg_text, p.f);
+				        addMessage(window.ACTIVE_CHAT.user, msg_text, p.f);
 
 				        $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
 				    });
@@ -817,9 +816,9 @@
 				                messages[n]["m"].push(mo);
 				            }
 				        }
-
+					
 				        window.localStorage.setItem("ct_msgs", JSON.stringify(messages));
-				    };
+				    }; /* /addMessage */
 
 				    var loadMessageList = function() {
 				        var messages = getLocalMessages();
