@@ -631,12 +631,10 @@
 
 								var user_m = messages[user];
 								var msg = user_m.m;
-
-								for(var i=0;i<msg.lemgth;i++) {
+								
+								for(var i=0;i<msg.length;i++) {
 									var m = msg[i];
-									
-									console.log(m);
-	
+
 									if (m.from == me.username) {
 										var from = "<strong>" + m.from + " (You)</strong>:<br>";
 									} else {
