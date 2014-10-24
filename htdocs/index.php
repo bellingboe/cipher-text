@@ -18,6 +18,8 @@
                 text-align: center;
                 text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.56);
                 color: #fff;
+                line-height: 70px;
+                font-weight: 200;
             }
             
             .launch-message {
@@ -29,7 +31,7 @@
     </head>
     <body>
         
-        <h1 class="site-header">Hello!</h1>
+        <h1 class="site-header">Ciphertext is coming...</h1>
         <p class="launch-message">We know you're excited, but the app hasn't launched the in the App Store yet, but when it does, this page will update.</p>
         
     </body>
