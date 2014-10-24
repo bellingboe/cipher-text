@@ -542,8 +542,6 @@
 							user: p.to[1],
 							key: getUserPublicKey(p.to[1])
 						};
-						
-						console.log(chat);
 					}
 
 				        var
@@ -552,8 +550,6 @@
 				            my_pub_key_obj = window.openpgp.key.readArmored(me.key.pub),
 				            my_pub_key = my_pub_key_obj.keys[0],
 				            my_priv = me.unlocked_private_key;
-					    
-					    console.log(pub_key_obj);
 
 				        var dec_msg_key = window.openpgp.decryptAndVerifyMessage(my_priv, [pub_key, my_pub_key], aes_key);
 
@@ -1073,12 +1069,31 @@
 				        var user = $(this).attr("data-user");
 				        $(".app-messages-conversation-display").html("");
 				        openPage("#app_conversation_view", "left", "left", function() {
-				            $("#app_conversation_view > p").html(user);
-				            var active_obj = {
-				                user: user,
-				                key: window.localStorage.getItem(user + "_key")
-				            };
-				            window.ACTIVE_CHAT = active_obj;
+						$("#app_conversation_view > p").html(user);
+						var active_obj = {
+							user: user,
+							key: window.localStorage.getItem(user + "_key")
+						};
+						
+						window.ACTIVE_CHAT = active_obj;
+						
+						var messages = window.localStorage.getItem("ct_msgs")
+						if (messages[user]["m"]) {
+							for(var i=0;i<messages[user]["m"].lemgth;i++) {
+								var m = messages[user]["m"][i];
+								
+								if (m.from == me.username) {
+								    var from = "<strong>" + m.from + " (You)</strong>:<br>";
+								} else {
+								    var from = m.from + ":<br>"
+								}
+			
+								msg_text = "<div class='msg-item'>" + m.msg + htmlEncode(msg_text).replace("\n", "</div><div>") + "</div>";
+								var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text);
+								var display = $(".app-messages-conversation-display").append(msg_item);
+								$(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 9999);								
+							}
+						}
 				        });
 				    });
 
