@@ -25,6 +25,8 @@
             .launch-message {
                 text-align: center;
                 color: #000;
+                font-weight: 600;
+                font-size: 1.5em;
             }
             
         </style>
