@@ -631,10 +631,10 @@
 
 								var user_m = messages[user];
 								
-								console.log(user_m );
-								console.log(user_m.m.lemgth);
+								console.log(user_m);
+								console.log((user_m.m).lemgth);
 	
-								for(var i=0;i<user_m.m.lemgth;i++) {
+								for(var i=0;i<(user_m.m).lemgth;i++) {
 									var m = user_m.m[i];
 	
 									if (m.from == me.username) {
