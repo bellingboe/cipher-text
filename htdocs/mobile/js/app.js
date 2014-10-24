@@ -628,9 +628,12 @@
 							window.ACTIVE_CHAT = active_obj;
 						
 							var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
+							var user_m = messages[user];
+							
+							console.log(user_m.m.lemgth);
 
-							for(var i=0;i<messages[user].m.lemgth;i++) {
-								var m = messages[user].m[i];
+							for(var i=0;i<user_m.m.lemgth;i++) {
+								var m = user_m.m[i];
 
 								if (m.from == me.username) {
 								    var from = "<strong>" + m.from + " (You)</strong>:<br>";
