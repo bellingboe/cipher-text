@@ -630,14 +630,12 @@
 								window.ACTIVE_CHAT = active_obj;
 
 								var user_m = messages[user];
-								
-								console.log(user_m);
-								console.log((user_m.m).lemgth);
-								
-								window.UM = user_m;
-	
-								for(var i=0;i<(user_m.m).lemgth;i++) {
-									var m = user_m.m[i];
+								var msg = user_m.m;
+
+								for(var i=0;i<msg.lemgth;i++) {
+									var m = msg[i];
+									
+									console.log(m);
 	
 									if (m.from == me.username) {
 										var from = "<strong>" + m.from + " (You)</strong>:<br>";
