@@ -1081,12 +1081,11 @@
 						window.ACTIVE_CHAT = active_obj;
 						
 						var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
-
-						console.log(messages[user].m[0]);
 						
 						if (messages[user]["m"]) {
 							for(var i=0;i<messages[user]["m"].lemgth;i++) {
 								var m = messages[user].m[i];
+								console.log(m);
 								
 								if (m.from == me.username) {
 								    var from = "<strong>" + m.from + " (You)</strong>:<br>";
@@ -1097,6 +1096,7 @@
 								msg_text = "<div class='msg-item'>" + m.msg + htmlEncode(msg_text).replace("\n", "</div><div>") + "</div>";
 								var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text);
 								var display = $(".app-messages-conversation-display").append(msg_item);
+								console.log(display);
 								$(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 9999);								
 							}
 						}
