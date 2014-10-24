@@ -13,12 +13,11 @@
             h1.site-header {
                 display: block;
                 width: 100%;
-                height: 70px;
-                background: #6388B1;
+                height: 100px;
                 text-align: center;
                 text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.56);
-                color: #fff;
-                line-height: 70px;
+                color: #6388B1;
+                line-height: 100px;
                 font-weight: 200;
             }
             
