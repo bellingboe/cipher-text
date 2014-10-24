@@ -1069,7 +1069,10 @@
 				        var user = $(this).attr("data-user");
 				        $(".app-messages-conversation-display").html("");
 				        openPage("#app_conversation_view", "left", "left", function() {
+						var me =active_id_object();
+						
 						$("#app_conversation_view > p").html(user);
+						
 						var active_obj = {
 							user: user,
 							key: window.localStorage.getItem(user + "_key")
@@ -1078,9 +1081,9 @@
 						window.ACTIVE_CHAT = active_obj;
 						
 						var messages = window.localStorage.getItem("ct_msgs")
-						if (messages[user]["m"]) {
-							for(var i=0;i<messages[user]["m"].lemgth;i++) {
-								var m = messages[user]["m"][i];
+						if (messages.user["m"]) {
+							for(var i=0;i<messages.user["m"].lemgth;i++) {
+								var m = messages.user["m"][i];
 								
 								if (m.from == me.username) {
 								    var from = "<strong>" + m.from + " (You)</strong>:<br>";
