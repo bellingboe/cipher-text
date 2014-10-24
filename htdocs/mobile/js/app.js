@@ -615,36 +615,38 @@
 				    $(".app-message-list").on("click", ".app-open-conversation", function() {
 							var user = $(this).attr("data-user");
 							$(".app-messages-conversation-display").html("");
-							openPage("#app_conversation_view", "left", "left", function() {
-							var me =active_id_object();
 							
-							$("#app_conversation_view > p").html(user);
-							
-							var active_obj = {
-								user: user,
-								key: window.localStorage.getItem(user + "_key")
-							};
-						
-							window.ACTIVE_CHAT = active_obj;
-						
 							var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
-							var user_m = messages[user];
+							openPage("#app_conversation_view", "left", "left", function() {
+								var me = active_id_object();
+								
+								$("#app_conversation_view > p").html(user);
+								
+								var active_obj = {
+									user: user,
+									key: window.localStorage.getItem(user + "_key")
+								};
 							
-							console.log(user_m.m.lemgth);
+								window.ACTIVE_CHAT = active_obj;
 
-							for(var i=0;i<user_m.m.lemgth;i++) {
-								var m = user_m.m[i];
-
-								if (m.from == me.username) {
-								    var from = "<strong>" + m.from + " (You)</strong>:<br>";
-								} else {
-								    var from = m.from + ":<br>"
+								var user_m = messages[user];
+								
+								console.log(user_m );
+								console.log(user_m.m.lemgth);
+	
+								for(var i=0;i<user_m.m.lemgth;i++) {
+									var m = user_m.m[i];
+	
+									if (m.from == me.username) {
+										var from = "<strong>" + m.from + " (You)</strong>:<br>";
+									} else {
+										var from = m.from + ":<br>"
+									}
+				
+									msg_text = "<div class='msg-item'>" + m.msg + htmlEncode(m.msg).replace("\n", "</div><div>") + "</div>";
+									var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text).appendTo($(".app-messages-conversation-display"));
+									$(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
 								}
-			
-								msg_text = "<div class='msg-item'>" + m.msg + htmlEncode(m.msg).replace("\n", "</div><div>") + "</div>";
-								var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text).appendTo($(".app-messages-conversation-display"));
-								$(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
-							}
 				        });
 				    });
 
