@@ -633,6 +633,8 @@
 								
 								console.log(user_m);
 								console.log((user_m.m).lemgth);
+								
+								window.UM = user_m;
 	
 								for(var i=0;i<(user_m.m).lemgth;i++) {
 									var m = user_m.m[i];
