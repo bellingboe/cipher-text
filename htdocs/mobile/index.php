@@ -518,6 +518,10 @@
 				        var msg = res.msg
 				        alert(msg);
 				    });
+				    
+				    socket.on("get-pub", function(res) {
+					window.localStorage.setItem(res.name + "_key", res.pub);
+				    });
 
 				    socket.on('disconnect', function() {});
 
@@ -530,9 +534,13 @@
 					if (window.ACTIVE_CHAT) {
 						chat = window.ACTIVE_CHAT;
 					} else {
+						if (!getUserPublicKey(p.to[1])) {
+							socket.emit("pub-get", {user: p.to[1]});
+						}
+						
 						chat = {
 							user: p.to[1],
-							key: window.localStorage.getItem(p.to[1] + "_key")
+							key: getUserPublicKey(p.to[1])
 						};
 						
 						console.log(chat);
@@ -597,6 +605,10 @@
 				        }
 				        location.reload();
 				    }; /* /logOut() */
+				    
+				    var getUserPublicKey = function(u){
+					window.localStorage.getItem(u + "_key");
+				    };
 
 				    var openPage = function(id, new_up_down, old_up_down, cb) {
 				        window.scrollTo(0, 0);

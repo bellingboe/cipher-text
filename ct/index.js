@@ -28,9 +28,7 @@ var getUserByName = function(n) {
 	 return false;
   }
   
-  return {sock: user_sock,
-		  name: user_name,
-		  pub: user_pub};
+  return {sock: user_sock, name: user_name, pub: user_pub};
 };
 
 app.get('/', function(req, res){
@@ -74,14 +72,19 @@ io.on('connection', function(socket){
     }
   });
 
-	socket.on('verify-name', function(name){
-	  if ("undefined" !== typeof user_socks[name]) {
-		  var user_pub = pubs[name];
-		  socket.emit("verify-true", {name: name, key: user_pub});
-	  } else {
-		  socket.emit("verify-false", {name: name});
-	  }
-	});
+    socket.on('verify-name', function(name){
+      if ("undefined" !== typeof user_socks[name]) {
+	      var user_pub = pubs[name];
+	      socket.emit("verify-true", {name: name, key: user_pub});
+      } else {
+	      socket.emit("verify-false", {name: name});
+      }
+    });
+    
+  socket.on("pub-get", function (o) {
+    var c = getUserByName(o.user);
+    socket.emit("get-pub", {name: o.user, pub: c.pub});
+  });
 
   socket.on("send-user-verify", function (o) {
     var c = getUserByName(o.user);
@@ -108,5 +111,5 @@ io.on('connection', function(socket){
 });
 
 https.listen(3267, function(){
-  console.log('listening on *:8080');
+  console.log('listening on *:3267');
 });
