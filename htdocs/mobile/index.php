@@ -915,8 +915,8 @@
 				                ts: new Date().getTime()
 				            };
 				            socket.emit("send-encrypted-message", msg_payload);
-
-				            addMessage(window.ACTIVE_CHAT.user, txt, me.username);
+					    
+						// maybe we don't need this? addMessage(window.ACTIVE_CHAT.user, txt, me.username);
 
 				            $(".send-msg-txt").val('').focus();
 
