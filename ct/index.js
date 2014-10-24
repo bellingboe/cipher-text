@@ -1,10 +1,9 @@
 var app = require('express')()
   , fs = require('fs')
-//, http = require('http').Server(app)
   , https = require('https').Server({
-      key: fs.readFileSync('/etc/ssl/www_destruct_co.key'),
-      cert: fs.readFileSync('/etc/ssl/www_destruct_co.crt'),
-      ca: fs.readFileSync('/etc/ssl/www_destruct_co.ca-bundle') 
+      key: fs.readFileSync('/etc/ssl/www_getciphertext_com.key'),
+      cert: fs.readFileSync('/etc/ssl/www_getciphertext_com.crt'),
+      ca: fs.readFileSync('/etc/ssl/www_getciphertext_com.ca-bundle') 
     }, app)
   , io = require('socket.io')(https);
 
@@ -16,8 +15,8 @@ io.set('transports', ['websocket',
                       'polling']);
 
 var user_socks 	= [] 	// [name] = socket.id;
-  , users 		= [] 	// [socket.id] = name;
-  , pubs 		= []; 	// [name] = key;
+  , users 	= [] 	// [socket.id] = name;
+  , pubs 	= []; 	// [name] = key;
 
 var getUserByName = function(n) {
   var user_sock = user_socks[n] || null;
