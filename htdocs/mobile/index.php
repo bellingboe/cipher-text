@@ -1082,6 +1082,8 @@
 						
 						var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
 
+						console.log(messages[user]);
+						
 						if (messages[user]["m"]) {
 							for(var i=0;i<messages[user]["m"].lemgth;i++) {
 								var m = messages[user]["m"][i];
