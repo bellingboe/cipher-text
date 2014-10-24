@@ -510,7 +510,7 @@
 				    socket.on("added-by-user", function(who) {
 				        var name = who.name;
 				        addMessage(name, null, name);
-				        alert(name + "added you as a contact.");
+				        alert("ID: " + name + " added you as a contact.");
 				        window.localStorage.setItem(name + "_key", who.key);
 				    });
 
@@ -522,10 +522,19 @@
 				    socket.on('disconnect', function() {});
 
 				    socket.on('rec-encrypted-message', function(p) {
-				        var who = p.to[1];
-				        var aes_key = window.openpgp.message.readArmored(p.ek);
-
+					
 				        var me = active_id_object();
+					var who;
+					
+					/* not yet needed... 
+					for (var i=0; i<p.to.length; i++) {
+						if (p.to[i] !== me.username) {
+							who = p.to[i];
+						}
+					}
+					*/
+					
+				        var aes_key = window.openpgp.message.readArmored(p.ek);
 				        var chat = window.ACTIVE_CHAT;
 
 				        var
@@ -557,7 +566,7 @@
 				        var msg_item = $("<div>").attr("data-ts", p.ts).html(dec_msg_text);
 				        var display = $(".app-messages-conversation-display").append(msg_item);
 
-				        addMessage(who, msg_text, p.f);
+				        addMessage(p.f, msg_text, p.f);
 
 				        $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
 				    });
