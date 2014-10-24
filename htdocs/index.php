@@ -1,6 +1,9 @@
 <!html>
 <html> 
     <head>
+        <title>
+            Ciphertext - The easiest way to send and receive annonymous, encrypted messages through IDs you can create and destroy with the push of a button.
+        </title>
         <link href='https://fonts.googleapis.com/css?family=Advent+Pro:400,500,600,700,300,200,100' rel='stylesheet' type='text/css'>
         <style>
             body {
