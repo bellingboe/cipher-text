@@ -18,7 +18,7 @@
 
 window = {}; // to make UMD bundles work
 
-importScripts('/js/vendor/openpgp/openpgp.js');
+importScripts('openpgp.js');
 
 var MIN_SIZE_RANDOM_BUFFER = 40000;
 var MAX_SIZE_RANDOM_BUFFER = 60000;
