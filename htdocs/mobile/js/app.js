@@ -613,27 +613,25 @@
 				    });
 
 				    $(".app-message-list").on("click", ".app-open-conversation", function() {
-				        var user = $(this).attr("data-user");
-				        $(".app-messages-conversation-display").html("");
-				        openPage("#app_conversation_view", "left", "left", function() {
-						var me =active_id_object();
+							var user = $(this).attr("data-user");
+							$(".app-messages-conversation-display").html("");
+							openPage("#app_conversation_view", "left", "left", function() {
+							var me =active_id_object();
+							
+							$("#app_conversation_view > p").html(user);
+							
+							var active_obj = {
+								user: user,
+								key: window.localStorage.getItem(user + "_key")
+							};
 						
-						$("#app_conversation_view > p").html(user);
+							window.ACTIVE_CHAT = active_obj;
 						
-						var active_obj = {
-							user: user,
-							key: window.localStorage.getItem(user + "_key")
-						};
-						
-						window.ACTIVE_CHAT = active_obj;
-						
-						var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
-						
-						if (messages[user].m.length) {
-							for(var i=0;i<messages[user]["m"].lemgth;i++) {
+							var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
+
+							for(var i=0;i<messages[user].m.lemgth;i++) {
 								var m = messages[user].m[i];
-								console.log(m);
-								
+
 								if (m.from == me.username) {
 								    var from = "<strong>" + m.from + " (You)</strong>:<br>";
 								} else {
@@ -644,7 +642,6 @@
 								var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text).appendTo($(".app-messages-conversation-display"));
 								$(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
 							}
-						}
 				        });
 				    });
 
