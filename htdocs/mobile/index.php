@@ -524,18 +524,17 @@
 				    socket.on('rec-encrypted-message', function(p) {
 					
 				        var me = active_id_object();
-					var who;
-					
-					/* not yet needed... 
-					for (var i=0; i<p.to.length; i++) {
-						if (p.to[i] !== me.username) {
-							who = p.to[i];
-						}
-					}
-					*/
-					
 				        var aes_key = window.openpgp.message.readArmored(p.ek);
-				        var chat = window.ACTIVE_CHAT;
+				        var chat = null;
+					
+					if (window.ACTIVE_CHAT) {
+						chat = window.ACTIVE_CHAT;
+					} else {
+						chat = {
+							user: p.to[1],
+							key: window.localStorage.getItem(p.to[1] + "_key")
+						};
+					}
 
 				        var
 				            pub_key_obj = window.openpgp.key.readArmored(chat.key),
@@ -566,7 +565,7 @@
 				        var msg_item = $("<div>").attr("data-ts", p.ts).html(dec_msg_text);
 				        var display = $(".app-messages-conversation-display").append(msg_item);
 
-				        addMessage(window.ACTIVE_CHAT.user, msg_text, p.f);
+				        addMessage(chat.user, msg_text, p.f);
 
 				        $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
 				    });
@@ -924,8 +923,6 @@
 				                ts: new Date().getTime()
 				            };
 				            socket.emit("send-encrypted-message", msg_payload);
-					    
-						// maybe we don't need this? addMessage(window.ACTIVE_CHAT.user, txt, me.username);
 
 				            $(".send-msg-txt").val('').focus();
 
