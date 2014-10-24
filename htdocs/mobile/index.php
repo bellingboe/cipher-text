@@ -534,6 +534,8 @@
 							user: p.to[1],
 							key: window.localStorage.getItem(p.to[1] + "_key")
 						};
+						
+						conssole.log(chat);
 					}
 
 				        var
@@ -542,6 +544,8 @@
 				            my_pub_key_obj = window.openpgp.key.readArmored(me.key.pub),
 				            my_pub_key = my_pub_key_obj.keys[0],
 				            my_priv = me.unlocked_private_key;
+					    
+					    console.log(pub_key_obj);
 
 				        var dec_msg_key = window.openpgp.decryptAndVerifyMessage(my_priv, [pub_key, my_pub_key], aes_key);
 
