@@ -26,6 +26,9 @@ section {
 	font-size:32pt;
 	width: 100%;
 }
+.help-text {
+	font-weight: 200;
+}
 .hiding {
 	display: none;
 }

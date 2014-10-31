@@ -116,7 +116,7 @@
 		App Help View [ #app_help ]
 		==========================================================
 		--->
-		<section id="app_help" class="hiding normal-font">
+		<section id="app_help" class="hiding help-text">
 			<h1 class="appTitle">Ciphertext Help</h1>
 			<p>Ciphertext is a secure, anonymous chat and message service used for the sensitive andclassified transfer of information.</p>
 
