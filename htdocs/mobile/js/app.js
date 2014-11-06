@@ -324,7 +324,7 @@ $(function() {
             pgp_email: new_id_str + " <anon-" + new_id_str + "@getciphertext.com>"
         };
 
-        window.openpgp.initWorker('openpgp.worker.js');
+        window.openpgp.initWorker('/mobile/js/openpgp.worker.js');
         window.openpgp.generateKeyPair(1, 2048, identity.pgp_email, get_master_pin(), function(err, res) {
             if (err) {
                 $(".id-name").removeClass("hiding").css({
@@ -465,7 +465,7 @@ $(function() {
             txt = $(".send-msg-txt").val();
 
 
-        window.openpgp.initWorker('openpgp.worker.js');
+        window.openpgp.initWorker('/mobile/js/openpgp.worker.js');
         window.openpgp.signAndEncryptMessage([pub_key, my_pub_key], my_priv, aesKey, function(err, res) {
             if (err) {
                 alert("Encryption failed.");
