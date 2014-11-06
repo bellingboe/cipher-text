@@ -4,7 +4,7 @@
 
     <script src="/mobile/js/jquery.js" type="text/javascript"></script>
     <script src="/mobile/js/aes.js" type="text/javascript"></script>
-    <script src="/mobile/js/openpgp.js" type="text/javascript"></script>
+    <script src="/mobile/openpgp.js" type="text/javascript"></script>
     <script src="/mobile/js/jquery.touchSwipe.min.js" type="text/javascript"></script>
     <link href='//fonts.googleapis.com/css?family=Advent+Pro:400,500,600,700,300,200,100' rel='stylesheet' type='text/css'>
     <meta content="yes" name="apple-mobile-web-app-capable">
