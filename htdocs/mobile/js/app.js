@@ -9,7 +9,8 @@ var
 $(function() {
     
     var chatEvent = function(u) {
-	$('[data-user="'+u+'"]').click();
+	console.log(u);
+	$('[data-user="'+u+'"]').trigger("click");
 	//loadMessageList();
     };
 
