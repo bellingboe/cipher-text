@@ -10,6 +10,7 @@ $(function() {
     
     var chatEvent = function(u) {
 	console.log(u);
+	$(".app-messages")
 	$('[data-user="'+u+'"]').click();
 	//loadMessageList();
     };
@@ -135,7 +136,7 @@ $(function() {
 
         $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
 	
-	if (window.ACTIVE_CHAT && window.ACTIVE_CHAT.user && old_chat.user.id !== p.to[1]) {
+	if (old_chat && old_chat.user && old_chat.user.id !== p.to[1]) {
 	    chatEvent(p.to[1]);
 	}
     });
@@ -625,6 +626,9 @@ $(function() {
         loadMessageList();
         openPage("#app_messages", "right", "right");
         window.ACTIVE_CHAT = false;
+    });
+    
+    $(".app-open-conversation").on("click", function() {
     });
 
     $(".app-message-list").on("click", ".app-open-conversation", function() {
