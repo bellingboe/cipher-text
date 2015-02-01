@@ -633,6 +633,7 @@ $(function() {
         $(".app-messages-conversation-display").html("");
 
 	if (is_msg_page == false) {
+	    loadMessageList();
 	    var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
 	    openPage("#app_conversation_view", "left", "left", function() {
 		is_msg_page = true;
