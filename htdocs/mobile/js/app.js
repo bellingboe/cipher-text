@@ -10,7 +10,7 @@ var
 $(function() {
     
     var chatEvent = function(u) {
-	$('[data-user="'+u+'"]').click();
+	$('.app-open-conversation"[data-user="'+u+'"]').trigger("click")
 	//loadMessageList();
     };
 
