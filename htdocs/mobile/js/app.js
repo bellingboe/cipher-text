@@ -104,21 +104,28 @@ $(function() {
 		    user: p.to[1],
 		    key: getUserPublicKey(p.to[1])
 		};
+		var
+		    pub_key_obj = window.openpgp.key.readArmored(chat.key),
+		    my_pub_key_obj = window.openpgp.key.readArmored(me.key.pub),
+		    my_pub_key = pub_key_obj.keys[0],
+		    pub_key = pub_key_obj.keys[0],
+		    my_priv = me.unlocked_private_key;
 	    } else {
 		chat = {
 		    user: p.f,
 		    key: getUserPublicKey(p.f)
 		};
+		var
+		    pub_key_obj = window.openpgp.key.readArmored(chat.key),
+		    pub_key = pub_key_obj.keys[0],
+		    my_pub_key_obj = window.openpgp.key.readArmored(me.key.pub),
+		    my_pub_key = my_pub_key_obj.keys[0],
+		    my_priv = me.unlocked_private_key;
 	    }
         }
 	
 
-        var
-            pub_key_obj = window.openpgp.key.readArmored(chat.key),
-            pub_key = pub_key_obj.keys[0],
-            my_pub_key_obj = window.openpgp.key.readArmored(me.key.pub),
-            my_pub_key = my_pub_key_obj.keys[0],
-            my_priv = me.unlocked_private_key;
+
 
         var dec_msg_key = window.openpgp.decryptAndVerifyMessage(my_priv, [pub_key, my_pub_key], aes_key);
 
