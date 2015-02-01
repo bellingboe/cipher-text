@@ -122,8 +122,10 @@ $(function() {
 
         if (p.f == me.username) {
             var from = "<strong>" + p.f + " (You)</strong>:<br>";
+	    chatEvent(p.to[1]);
         } else {
-            var from = p.f + ":<br>"
+            var from = p.f + ":<br>";
+	    chatEvent(p.to[1]);
         }
 
         dec_msg_text = "<div class='msg-item'>" + from + htmlEncode(dec_msg_text).replace("\n", "</div><div>") + "</div>";
@@ -134,10 +136,6 @@ $(function() {
         addMessage(chat.user, msg_text, p.f);
 
         $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
-	
-	if (me.username !== p.f && p.to[1] !== me.username ) {
-	    chatEvent(p.to[1]);
-	}
     });
 
     $("#app_setup")
@@ -605,7 +603,6 @@ $(function() {
 
     $(".app-close-messages").on("click", function() {
         openPage("#app_page", "right", "right");
-	is_msg_page = false;
     });
 
     $(".app-close-id-data").on("click", function() {
@@ -626,6 +623,7 @@ $(function() {
         loadMessageList();
         openPage("#app_messages", "right", "right");
         window.ACTIVE_CHAT = false;
+	is_msg_page = false;
     });
 
     $(".app-message-list").on("click", ".app-open-conversation", function() {
