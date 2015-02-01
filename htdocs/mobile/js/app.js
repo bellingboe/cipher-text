@@ -5,8 +5,14 @@ var
     }),
     is_online = 0,
     DEBUG_MODE = false;
-
+    
 $(function() {
+    
+    var chatEvent = function(u) {
+	loadMessageList();
+	
+	$(".app-open-conversation['data-user']").on("click");
+    };
 
     $(".dotdotdot").on("click", function(e) {
         e.preventDefault();
@@ -73,7 +79,11 @@ $(function() {
     socket.on('disconnect', function() {});
 
     socket.on('rec-encrypted-message', function(p) {
-
+	
+	if (window.ACTIVE_CHAT && window.ACTIVE_CHAT.user && window.ACTIVE_CHAT.user.id !== p.to[1]) {
+	    chatEvent(p.to[1]);
+	}
+	
         var me = active_id_object();
         var aes_key = window.openpgp.message.readArmored(p.ek);
         var chat = null;
@@ -92,6 +102,7 @@ $(function() {
                 key: getUserPublicKey(p.to[1])
             };
         }
+	
 
         var
             pub_key_obj = window.openpgp.key.readArmored(chat.key),
