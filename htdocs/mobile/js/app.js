@@ -133,8 +133,9 @@ $(function() {
         addMessage(chat.user, msg_text, p.f);
 
         $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
+	var obj = window.active_id_object();
 	
-	if (old_chat && old_chat.user && old_chat.user.id !== p.to[1]) {
+	if (old_chat && old_chat.user && old_chat.user.id !== p.to[1] && p.to[1] !== obj.username ) {
 	    chatEvent(p.to[1]);
 	}
     });
