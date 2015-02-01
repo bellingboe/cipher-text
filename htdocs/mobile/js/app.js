@@ -9,9 +9,8 @@ var
 $(function() {
     
     var chatEvent = function(u) {
-	loadMessageList();
-	
 	$(".app-open-conversation['data-user']").on("click");
+	loadMessageList();
     };
 
     $(".dotdotdot").on("click", function(e) {
@@ -80,9 +79,7 @@ $(function() {
 
     socket.on('rec-encrypted-message', function(p) {
 	
-	if (window.ACTIVE_CHAT && window.ACTIVE_CHAT.user && window.ACTIVE_CHAT.user.id !== p.to[1]) {
-	    chatEvent(p.to[1]);
-	}
+	old_chat = window.ACTIVE_CHAT;
 	
         var me = active_id_object();
         var aes_key = window.openpgp.message.readArmored(p.ek);
@@ -136,6 +133,10 @@ $(function() {
         addMessage(chat.user, msg_text, p.f);
 
         $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
+	
+	if (window.ACTIVE_CHAT && window.ACTIVE_CHAT.user && old_chat.user.id !== p.to[1]) {
+	    chatEvent(p.to[1]);
+	}
     });
 
     $("#app_setup")
