@@ -39,5 +39,10 @@
         <h1 class="site-header">Ciphertext is coming...</h1>
         <p class="launch-message">We know you're excited, but the app hasn't launched the in the App Store yet, but when it does, this page will update.</p>
         
+        <script>
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            window.location = "/mobile/";
+        }
+        </script>
     </body>
 </html> 
