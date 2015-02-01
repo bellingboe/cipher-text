@@ -9,8 +9,8 @@ var
 $(function() {
     
     var chatEvent = function(u) {
-	$(".app-open-conversation['data-user']").on("click");
-	loadMessageList();
+	$('[data-user="'+u+'"]').click();
+	//loadMessageList();
     };
 
     $(".dotdotdot").on("click", function(e) {
