@@ -5,6 +5,7 @@ var
     }),
     is_online = 0,
     DEBUG_MODE = false;
+    is_msg_page = false;
     
 $(function() {
     
@@ -133,9 +134,8 @@ $(function() {
         addMessage(chat.user, msg_text, p.f);
 
         $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
-	var obj = window.active_id_object();
 	
-	if (old_chat && old_chat.user && old_chat.user.id !== p.to[1] && p.to[1] !== obj.username ) {
+	if (me.username !== p.f && p.to[1] !== me.username ) {
 	    chatEvent(p.to[1]);
 	}
     });
@@ -605,6 +605,7 @@ $(function() {
 
     $(".app-close-messages").on("click", function() {
         openPage("#app_page", "right", "right");
+	is_msg_page = false;
     });
 
     $(".app-close-id-data").on("click", function() {
@@ -626,46 +627,46 @@ $(function() {
         openPage("#app_messages", "right", "right");
         window.ACTIVE_CHAT = false;
     });
-    
-    $(".app-open-conversation").on("click", function() {
-    });
 
     $(".app-message-list").on("click", ".app-open-conversation", function() {
         var user = $(this).attr("data-user");
         $(".app-messages-conversation-display").html("");
 
-        var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
-        openPage("#app_conversation_view", "left", "left", function() {
-            var me = active_id_object();
-
-            $("#app_conversation_view > p").html(user);
-
-            var active_obj = {
-                user: user,
-                key: window.localStorage.getItem(user + "_key")
-            };
-
-            window.ACTIVE_CHAT = active_obj;
-
-            var user_m = messages[user];
-            var msg = user_m.m;
-
-            for (var i = 0; i < msg.length; i++) {
-                var m = msg[i];
-
-                if (m.from == me.username) {
-                    var from = "<strong>" + m.from + " (You)</strong>:<br>";
-                } else {
-                    var from = m.from + ":<br>"
-                }
-
-                msg_text = m.msg;
-
-                msg_text = "<div class='msg-item'>" + from + htmlEncode(msg_text).replace("\n", "</div><div>") + "</div>";
-                var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text).appendTo($(".app-messages-conversation-display"));
-                $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
-            }
-        });
+	if (is_msg_page == false) {
+	    var messages = JSON.parse(window.localStorage.getItem("ct_msgs"));
+	    openPage("#app_conversation_view", "left", "left", function() {
+		is_msg_page = true;
+		var me = active_id_object();
+    
+		$("#app_conversation_view > p").html(user);
+    
+		var active_obj = {
+		    user: user,
+		    key: window.localStorage.getItem(user + "_key")
+		};
+    
+		window.ACTIVE_CHAT = active_obj;
+    
+		var user_m = messages[user];
+		var msg = user_m.m;
+    
+		for (var i = 0; i < msg.length; i++) {
+		    var m = msg[i];
+    
+		    if (m.from == me.username) {
+			var from = "<strong>" + m.from + " (You)</strong>:<br>";
+		    } else {
+			var from = m.from + ":<br>"
+		    }
+    
+		    msg_text = m.msg;
+    
+		    msg_text = "<div class='msg-item'>" + from + htmlEncode(msg_text).replace("\n", "</div><div>") + "</div>";
+		    var msg_item = $("<div>").attr("data-ts", m.ts).html(msg_text).appendTo($(".app-messages-conversation-display"));
+		    $(".app-messages-conversation-display").scrollTop($(".app-messages-conversation-display").prop('scrollHeight') + 999);
+		}
+	    });
+	}
     });
 
     $("#login_masterpass_form input[type=button]")
