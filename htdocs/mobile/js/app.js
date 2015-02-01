@@ -85,6 +85,10 @@ $(function() {
         var me = active_id_object();
         var aes_key = window.openpgp.message.readArmored(p.ek);
         var chat = null;
+	
+	if (p.f == me.username) {
+	    
+	}
 
         if (window.ACTIVE_CHAT) {
             chat = window.ACTIVE_CHAT;
@@ -95,10 +99,17 @@ $(function() {
                 });
             }
 
-            chat = {
-                user: p.to[1],
-                key: getUserPublicKey(p.to[1])
-            };
+	    if (p.f == me.username) {
+		chat = {
+		    user: p.to[1],
+		    key: getUserPublicKey(p.to[1])
+		};
+	    } else {
+		chat = {
+		    user: p.f,
+		    key: getUserPublicKey(p.f)
+		};
+	    }
         }
 	
 
