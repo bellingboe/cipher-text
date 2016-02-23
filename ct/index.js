@@ -21,9 +21,9 @@ var server = require('https').Server({
 	ca: fs.readFileSync('/etc/apache2/ssl/chain.crt') 
     }, app);
 var io = require('socket.io')(server);
-var port = process.env.PORT || 3267;
+var port = 3232;
 
-server.listen(3267, function(){
+server.listen(port, function(){
   console.log('listening on *:3267');
 });
 
