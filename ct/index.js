@@ -1,9 +1,9 @@
 var app = require('express')()
   , fs = require('fs')
   , https = require('https').Server({
-      key: fs.readFileSync('/etc/ssl/www_getciphertext_com.key'),
-      cert: fs.readFileSync('/etc/ssl/www_getciphertext_com.crt'),
-      ca: fs.readFileSync('/etc/ssl/www_getciphertext_com.ca-bundle') 
+      key: fs.readFileSync('/etc/apache2/ssl/cipher.tools.key'),
+      cert: fs.readFileSync('/etc/apache2/ssl/cipher.tools.crt'),
+      ca: fs.readFileSync('/etc/apache2/ssl/chain.crt') 
     }, app)
   , io = require('socket.io')(https);
 
