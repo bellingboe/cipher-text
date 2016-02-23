@@ -14,17 +14,19 @@
 var express = require('express');
 var app = express();
 var fs = require('fs')
-//var server = require('http').createServer(app);
+var server = require('http').createServer(app);
+/*
 var server = require('https').Server({
 	key: fs.readFileSync('/etc/apache2/ssl/cipher.tools.key'),
 	cert: fs.readFileSync('/etc/apache2/ssl/cipher.tools.crt'),
 	ca: fs.readFileSync('/etc/apache2/ssl/chain.crt') 
     }, app);
+*/
 var io = require('socket.io')(server);
 var port = 3232;
 
 server.listen(port, function(){
-  console.log('listening on *:3267');
+  console.log('listening on *:');
 });
 
 io.set('transports', ['websocket',
