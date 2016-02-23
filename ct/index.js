@@ -1,4 +1,6 @@
-var app = require('express')()
+/*
+
+  var app = require('express')()
   , fs = require('fs')
   , https = require('https').Server({
       key: fs.readFileSync('/etc/apache2/ssl/cipher.tools.key'),
@@ -6,6 +8,24 @@ var app = require('express')()
       ca: fs.readFileSync('/etc/apache2/ssl/chain.crt') 
     }, app)
   , io = require('socket.io')(https);
+  
+*/
+
+var express = require('express');
+var app = express();
+var fs = require('fs')
+//var server = require('http').createServer(app);
+var server = require('https').Server({
+	key: fs.readFileSync('/etc/apache2/ssl/cipher.tools.key'),
+	cert: fs.readFileSync('/etc/apache2/ssl/cipher.tools.crt'),
+	ca: fs.readFileSync('/etc/apache2/ssl/chain.crt') 
+    }, app);
+var io = require('socket.io')(server);
+var port = process.env.PORT || 3267;
+
+server.listen(3267, function(){
+  console.log('listening on *:3267');
+});
 
 io.set('transports', ['websocket',
                       'xhr-polling',
@@ -108,8 +128,4 @@ io.on('connection', function(socket){
       } catch (e){}
   });
 
-});
-
-https.listen(3267, function(){
-  console.log('listening on *:3267');
 });
