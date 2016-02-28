@@ -56,10 +56,20 @@ var getUserByName = function(n) {
 
 app.get('/pk/:user', function(req, res){
     var u = req.params.user;
-    
-    console.log(u);
-    
-    res.send(pubs[u]);
+    if (pub.indexOf(u) !== -1) {
+	res.send(pubs[u]);
+    } else {
+	res.send("false");
+    }
+});
+
+app.get('/sock/:user', function(req, res){
+    var u = req.params.user;
+    if (user_socks.indexOf(u) !== -1) {
+	res.send(user_socks[u]);
+    } else {
+	res.send("false");
+    }
 });
 
 io.on('connection', function(socket){
