@@ -53,7 +53,7 @@ var getUserByName = function(n) {
   return {sock: user_sock, name: user_name, pub: user_pub};
 };
 
-app.get('/', function(req, res){
+app.get('/hello', function(req, res){
   res.send('Hello World');
 });
 
