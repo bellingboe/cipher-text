@@ -75,6 +75,7 @@ io.on('connection', function(socket){
 	
 	for (var i=0; i<p.to.length; i++) {
 	  var u = getUserByName(p.to[i]);
+	  console.log(u);
 	  try {
 		io.to(u.sock).emit("rec-encrypted-message", p);
 	  } catch (e) {
@@ -84,50 +85,50 @@ io.on('connection', function(socket){
 	}
   });
 
-  socket.on('socket-test', function(name){
-    var c = getUserByName(name);
-    try {
-      io.to(c.sock).emit("socket-test-msg", {"msg": "self test success!"});
-    } catch (e) {
-      console.log("err:");
-      console.log(e);
-    }
-  });
-
-    socket.on('verify-name', function(name){
-      if ("undefined" !== typeof user_socks[name]) {
-	      var user_pub = pubs[name];
-	      socket.emit("verify-true", {name: name, key: user_pub});
-      } else {
-	      socket.emit("verify-false", {name: name});
+    socket.on('socket-test', function(name){
+      var c = getUserByName(name);
+      try {
+	io.to(c.sock).emit("socket-test-msg", {"msg": "self test success!"});
+      } catch (e) {
+	console.log("err:");
+	console.log(e);
       }
     });
     
-  socket.on("pub-get", function (o) {
-    var c = getUserByName(o.user);
-    socket.emit("get-pub", {name: o.user, pub: c.pub});
-  });
-
-  socket.on("send-user-verify", function (o) {
-    var c = getUserByName(o.user);
-	var other = getUserByName(o.me);
-    try {
-      io.to(c.sock).emit("added-by-user", {"name": o.me, "key": other.pub});
-    } catch (e) {
-      console.log("err:");
-      console.log(e);
-    }
-  });
-
-  socket.on("disconnect", function(){
+      socket.on('verify-name', function(name){
+	if ("undefined" !== typeof user_socks[name]) {
+		var user_pub = pubs[name];
+		socket.emit("verify-true", {name: name, key: user_pub});
+	} else {
+		socket.emit("verify-false", {name: name});
+	}
+      });
+      
+    socket.on("pub-get", function (o) {
+      var c = getUserByName(o.user);
+      socket.emit("get-pub", {name: o.user, pub: c.pub});
+    });
+    
+    socket.on("send-user-verify", function (o) {
+      var c = getUserByName(o.user);
+	  var other = getUserByName(o.me);
       try {
-      //var id = users[socket.id];
-      //io.emit('idDisconn', id, socket.id);
-        var name = users[socket.id];
-        delete pubs[name];
-        delete users[socket.id];
-       delete user_socks[name];
-      } catch (e){}
-  });
+	io.to(c.sock).emit("added-by-user", {"name": o.me, "key": other.pub});
+      } catch (e) {
+	console.log("err:");
+	console.log(e);
+      }
+    });
+    
+    socket.on("disconnect", function(){
+	try {
+	//var id = users[socket.id];
+	//io.emit('idDisconn', id, socket.id);
+	  var name = users[socket.id];
+	  delete pubs[name];
+	  delete users[socket.id];
+	 delete user_socks[name];
+	} catch (e){}
+    });
 
 });
