@@ -56,6 +56,9 @@ var getUserByName = function(n) {
 
 app.get('/pk/:user', function(req, res){
     var u = req.params.user;
+    
+    console.log(u);
+    
     res.send(pubs[u]);
 });
 
