@@ -56,7 +56,7 @@ var getUserByName = function(n) {
 
 app.get('/pk/:user', function(req, res){
     var u = req.params.user;
-    if (pubs.indexOf(u) !== -1) {
+    if (pubs[u]) {
 	res.send(pubs[u]);
     } else {
 	res.send("false");
@@ -65,7 +65,7 @@ app.get('/pk/:user', function(req, res){
 
 app.get('/sock/:user', function(req, res){
     var u = req.params.user;
-    if (user_socks.indexOf(u) !== -1) {
+    if (user_socks[u]) {
 	res.send(user_socks[u]);
     } else {
 	res.send("false");
