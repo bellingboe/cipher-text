@@ -90,7 +90,6 @@ io.on('connection', function(socket){
 	
 	for (var i=0; i<p.to.length; i++) {
 	  var u = getUserByName(p.to[i]);
-	  console.log(u);
 	  try {
 		io.to(u.sock).emit("rec-encrypted-message", p);
 	  } catch (e) {
