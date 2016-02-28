@@ -15,6 +15,7 @@ var express = require('express');
 var app = express();
 var fs = require('fs')
 //var server = require('http').createServer(app);
+var http = require('http');
 
 var server = require('https').Server({
 	key: fs.readFileSync('/etc/apache2/ssl/cipher.tools.key'),
@@ -26,7 +27,7 @@ var io = require('socket.io')(server);
 var port = 3232;
 
 server.listen(port, function(){
-  console.log('listening on *:');
+  console.log('listening on '+port+':');
 });
 
 io.set('transports', ['websocket',
@@ -53,8 +54,9 @@ var getUserByName = function(n) {
   return {sock: user_sock, name: user_name, pub: user_pub};
 };
 
-app.get('/hello', function(req, res){
-  res.send('Hello World');
+app.get('/pk/:user', function(req, res){
+    var u = req.params.user;
+    res.send(pubs[u]);
 });
 
 io.on('connection', function(socket){
