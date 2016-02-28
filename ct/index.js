@@ -23,9 +23,6 @@ var server = require('https').Server({
 	ca: fs.readFileSync('/etc/apache2/ssl/chain.crt') 
     }, app);
 
-var redis = require("redis"),
-    client = redis.createClient();
-
 var io = require('socket.io')(server);
 var port = 3232;
 
